@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Form test</title>
+</head>
+<body>
+<h1>Subir Archivo</h1>
+
+	<form action="rest/files/upload" method="post" enctype="multipart/form-data">
+      ID_Investigacion:<br>
+      <input type="text" name="idinvestigacion" value="1"><br>
+      Hash:<br>
+      <input type="text" name="hash" value="a85bc6f46b10357ad597888f97c1b7b8"><br>
+      Formato:<br>
+      <select name="formato">
+        <option value="Movistar">Movistar</option>
+        <option value="Claro">Claro</option>
+        <option value="Nextel">Nextel</option>
+        <option value="Personal">Personal</option>
+      </select><br>
+	  Archivo:<br>
+      Seleccione el archivo: <input type="file" name="file" size="50" />
+
+	   <input type="submit" value="Upload It" />
+	</form>
+
+</body>
+</html>
