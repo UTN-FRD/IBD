@@ -79,42 +79,33 @@
   </nav>
 
   
-<div id="asistente">
-  <div id="MenuAsistente" style="visibility:hidden">
-    <ul>
-      <li><a id="Datos_Investigacion" href="#DatosInvestigacion" data-toggle="tab">Datos de la investigacion</a></li>
-      <li><a id="Tipo_Importacion" class="link-deshabilitado" href="#TipoImportacion" data-toggle="tab">Tipo de importación</a> </li>
-      <li><a id="datos_Importacion" class="link-deshabilitado" href="#datosImportacion" data-toggle="tab">Seleccionar archivo</a></li>
-      <li><a id="vista_Previa" class="link-deshabilitado" href="#vistaPrevia" data-toggle="tab">Vista previa</a></li>
-      <li><a id="seleccion_Columnas" class="link-deshabilitado" href="#seleccionColumnas" data-toggle="tab">Selección columnas</a></li>
-      <li><a id="seleccion_Filas" class="link-deshabilitado" href="#seleccionFilas" data-toggle="tab">Selección filas</a></li>
-      <li><a id="acciones_PorColumnas" class="link-deshabilitado" href="#accionesPorColumnas" data-toggle="tab">Acciones por columna</a></li>
-      <li><a id="seleccion_disenioImportacion" class="link-deshabilitado" href="#disenioImportacion" data-toggle="tab">Diseño de Importación</a></li>
-      <li><a id="MapeoEntidades" class="link-deshabilitado" href="#Mapeo_Entidades" data-toggle="tab">Mapeo de Entidades</a></li>
-      <li><a id="resultadosImportacion" class="link-deshabilitado" href="#Resultados_Importacion" data-toggle="tab">Resultados</a></li>
-    </ul>
-  </div>
-  <div class="tab-content">
-    <div class="contenidoCentrado tab-pane cursor-puntero" id="DatosInvestigacion">
-<h4 class="tituloPasoAsistente">
-  SUBIR ARCHIVO
-	<form action="rest/files/upload" method="post" enctype="multipart/form-data">
-      ID_Investigacion:<br>
-      <input type="text" name="idinvestigacion" value="1"><br>
-      Hash:<br>
-      <input type="text" name="hash" value="a85bc6f46b10357ad597888f97c1b7b8"><br>
-      Formato:<br>
-      <select name="formato">
-        <option value="Movistar">Movistar</option>
-        <option value="Claro">Claro</option>
-        <option value="Nextel">Nextel</option>
-        <option value="Personal">Personal</option>
-      </select><br>
-	  Archivo:<br>
-      Seleccione el archivo: <input type="file" name="file" size="50" />
-
-	   <input type="submit" value="Upload It" />
-	</form>
-
+	<div class="container">
+		<h4 class="tituloPasoAsistente">SUBIR ARCHIVO</h4>
+		<form action="rest/files/upload" method="post" enctype="multipart/form-data">
+			<div class="form-group">
+				<label>ID_Investigacion:</label>
+				<input type="text" name="idinvestigacion" value="1" class="form-control"/>
+			</div>
+			<div class="form-group">
+				<label>Hash:</label>
+				<input type="text" name="hash" value="a85bc6f46b10357ad597888f97c1b7b8" class="form-control"/>
+			</div>
+			<div class="form-group">
+				<label>Formato:</label>
+				<select name="formato" class="form-control">
+					<option value="Movistar">Movistar</option>
+					<option value="Claro">Claro</option>
+					<option value="Nextel">Nextel</option>
+					<option value="Personal">Personal</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label>Archivo:</label>
+				Seleccione el archivo: <input type="file" name="file" size="50" class="form-control"/>
+			</div>      
+		
+			<input type="submit" value="Upload It" />
+		</form>
+	</div>
 </body>
 </html>
