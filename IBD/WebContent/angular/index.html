@@ -1,47 +1,68 @@
 <!DOCTYPE html>
+<!-- https://github.com/Brown-University-Library/angular-solr-example -->
 <html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>BigData-Investiga</title>
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.10/angular.js" type="text/javascript" charset="utf-8"></script>-->
-    <script src="app/bower_components/angular/angular.js" type="text/javascript" charset="utf-8"></script>
-    <link rel="stylesheet" href="app/bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" media="all" />
-    <!--<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css" media="all" />-->
-    <style type="text/css">
-    solr-facet-result a{cursor:pointer}
-    </style>
-  </head>
-  <body>
-    <div ng-app="firstApp" ng-controller="MainCtrl">
-      <div class="container">
-        <h1>Preprocesamiento Investiga</h1>
-        <solr docs="docs" num-found="numFound" solr-url="'http://lsi.no-ip.org:8983/solr/comunicaciones/select?json.wrf=JSON_CALLBACK&wt=json'">
-          <div class="row">
-            <div class="col-md-4">
-              <solr-facet-group>
-                <h2>Search:</h2>
-                <solr-search preload='true' query='{{params.q}}'></solr-search>
-                <solr-selected><h2>Filtros Aplicados:</h2></solr-selected>
-                <h2>Filtros:</h2>
-                <solr-facet display="Tipo Comunicacion" field="Tipo_Comunicacion"></solr-facet>
-                <solr-facet display="Nro_Destino"   field="Nro_Destino"></solr-facet>
-                <solr-facet display="Nro_Origen"       field="Nro_Origen"></solr-facet>
-              </solr-facet-group>
-            </div>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>BigData-Investiga</title>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.10/angular.js" type="text/javascript" charset="utf-8"></script>-->
+<script src="app/bower_components/angular/angular.js"
+	type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet"
+	href="app/bower_components/bootstrap/dist/css/bootstrap.min.css"
+	type="text/css" media="all" />
+<!--<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css" media="all" />-->
+<style type="text/css">
+solr-facet-result a {
+	cursor: pointer
+}
+</style>
+</head>
+<body>
+	<div ng-app="firstApp" ng-controller="MainCtrl">
+		<div class="container">
+			<h1>Preprocesamiento Investiga</h1>
+			<solr docs="docs" num-found="numFound"
+				solr-url="'http://lsi.no-ip.org:8983/solr/comunicaciones/select?json.wrf=JSON_CALLBACK&wt=json'">
+			<div class="row">
+				<div class="col-md-4">
+					<solr-facet-group>
+					<h2>Search:</h2>
+					<solr-search preload='true' query='{{params.q}}'></solr-search> 
+					<solr-selected>
+						<h2>Filtros Aplicados:</h2>
+					</solr-selected>
+					<h2>Filtros:</h2>
+					<solr-facet display="Tipo Comunicacion" field="Tipo_Comunicacion"></solr-facet>
+					<solr-facet display="Nro_Destino" field="Nro_Destino"></solr-facet>
+					<solr-facet display="Nro_Origen" field="Nro_Origen"></solr-facet> </solr-facet-group>
+				</div>
 
-            <div class="col-md-8">
-              <h2>Results ({{numFound}})</h2>
-              <ul class="list-unstyled">
-                <li ng-repeat="doc in docs">
-                  <result-document record=doc ></result-document>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </solr>
-      </div>
-    </div>
-    <script src="app/js/solr.js" type="text/javascript" charset="utf-8"></script>
-    <script src="app/js/main.js" type="text/javascript" charset="utf-8"></script>
-  </body>
+				<div class="col-md-8">
+					<h2 class="pull-left">Results ({{numFound}})</h2>
+					<a class="btn btn-success pull-right" href="http://lsi.no-ip.org:8983/solr/comunicaciones/select?wt=csv&q=*&fl=Fecha_Origen,Nro_Origen,Nro_Destino,Tipo_Comunicacion,Duracion&rows=1000">Descargar CSV</a>
+					
+					<table class="table ">
+						<tr>
+							<th>Fecha</th>
+							<th>Origen</th>
+							<th>Destino</th>
+							<th>Tipo</th>
+							<th>Duraci&oacute;n</th>
+						</tr>
+						<tr ng-repeat="doc in docs">
+							<td>{{doc.Fecha_Origen}}</td>
+							<td>{{doc.Nro_Origen}}</td>
+							<td>{{doc.Nro_Destino}}</td>
+							<td>{{doc.Tipo_Comunicacion}}</td>
+							<td>{{doc.Duracion}}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			</solr>
+		</div>
+	</div>
+	<script src="app/js/solr.js" type="text/javascript" charset="utf-8"></script>
+	<script src="app/js/main.js" type="text/javascript" charset="utf-8"></script>
+</body>
 </html>
