@@ -1,66 +1,47 @@
+<!DOCTYPE html>
 <html>
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<title>Law Search</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>BigData-Investiga</title>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.10/angular.js" type="text/javascript" charset="utf-8"></script>-->
+    <script src="app/bower_components/angular/angular.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="app/bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" media="all" />
+    <!--<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css" media="all" />-->
+    <style type="text/css">
+    solr-facet-result a{cursor:pointer}
+    </style>
+  </head>
+  <body>
+    <div ng-app="firstApp" ng-controller="MainCtrl">
+      <div class="container">
+        <h1>Preprocesamiento Investiga</h1>
+        <solr docs="docs" num-found="numFound" solr-url="'http://lsi.no-ip.org:8983/solr/comunicaciones/select?json.wrf=JSON_CALLBACK&wt=json'">
+          <div class="row">
+            <div class="col-md-4">
+              <solr-facet-group>
+                <h2>Search:</h2>
+                <solr-search preload='true' query='{{params.q}}'></solr-search>
+                <solr-selected><h2>Filtros Aplicados:</h2></solr-selected>
+                <h2>Filtros:</h2>
+                <solr-facet display="Tipo Comunicacion" field="Tipo_Comunicacion"></solr-facet>
+                <solr-facet display="Nro_Destino"   field="Nro_Destino"></solr-facet>
+                <solr-facet display="Nro_Origen"       field="Nro_Origen"></solr-facet>
+              </solr-facet-group>
+            </div>
 
-<script>
-
-
-
-var app = angular.module('solrapp', []);
-angular.module('solrapp').
-directive('searchResults', function () {
-  return {
-    scope: {
-      solrUrl: '=',
-      displayField: '=',
-      query: '&',
-      results: '&'
-    },
-    restrict: 'E',
-    controller: function($scope, $http) {
-    	if($scope.query.length<=1) $scope.query='*:*';
-      console.log('Searching for ' + $scope.query + ' at ' + $scope.solrUrl);
-      $scope.$watch('query', function() {
-        $http(
-          {method: 'JSONP',
-           url: $scope.solrUrl,
-           params:{'json.wrf': 'JSON_CALLBACK',
-                  'q': $scope.query,
-                  'fl': $scope.displayField,
-                  'wt': 'json'
-                  }
-          })
-          .success(function(data) {
-            var docs = data.response.docs;
-            console.log('search success!');
-            $scope.results.docs = docs;
-
-          }).error(function() {
-            console.log('Search failed!');
-          });
-      });
-    },
-    template: '<input ng-model="query" name="Search"></input>' +
-              '<h2>Search Results for </h2>' +
-              '<table border=1px>'+
-              '<tr><th>Fecha</th><th>Nro Origen</th><th>Nro Destino</th><th>Duracion</th></tr>'+
-              '<tr ng-repeat="doc in results.docs">' +
-              '  <td>{{doc.Fecha_Origen}}</td>'+
-              '  <td>{{doc.Nro_Origen}}</td>'  +
-              '  <td>{{doc.Nro_Destino}}</td>'+
-              '  <td>{{doc.Duracion}}</td>'+
-              '</tr>'
-  };
-});
-</script>
-</head>
-<body>
-<div ng-app="solrapp">Search Results
-    <search-results solr-url="'http://lsi.no-ip.org:8983/solr/comunicaciones/select'" query="'*:*'" display-field="id"></search-results>
-</div>
-
-</body>
+            <div class="col-md-8">
+              <h2>Results ({{numFound}})</h2>
+              <ul class="list-unstyled">
+                <li ng-repeat="doc in docs">
+                  <result-document record=doc ></result-document>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </solr>
+      </div>
+    </div>
+    <script src="app/js/solr.js" type="text/javascript" charset="utf-8"></script>
+    <script src="app/js/main.js" type="text/javascript" charset="utf-8"></script>
+  </body>
 </html>
