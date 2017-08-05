@@ -25,7 +25,7 @@ var Manager;
         $('#pager-header').html($('<span></span>').text('mostrando ' + Math.min(total, offset + 1) + ' de ' + Math.min(total, offset + perPage) + ' de ' + total));
       }
     }));
-    var fields = [ 'Nro_Origen', 'Nro_Destino' ];
+    var fields = [ 'Nro_Origen', 'Nro_Destino', 'Tipo_Comunicacion', 'Duracion', 'Celda_Origen' ];
     for (var i = 0, l = fields.length; i < l; i++) {
       Manager.addWidget(new AjaxSolr.TagcloudWidget({
         id: fields[i],
@@ -33,6 +33,11 @@ var Manager;
         field: fields[i]
       }));
     }
+    Manager.addWidget(new AjaxSolr.HighchartsWidget({
+      id: 'highcharts-container',
+      target: '#highcharts-container',
+      field: 'Fecha_Origen'
+	}));
     Manager.addWidget(new AjaxSolr.CurrentSearchWidget({
       id: 'currentsearch',
       target: '#selection'
@@ -57,17 +62,31 @@ var Manager;
     
     Manager.init();
     
+    //http://lsi.no-ip.org:8983/solr/comunicaciones/select?
+    //rows=0&
+    //q=*:*&
+    //facet.range=Fecha_Origen&
+    //facet=true&
+    //facet.range.start=NOW/MONTH&
+    //facet.range.end=NOW/MONTH%2B1MONTH&
+    //facet.range.gap=%2B1DAY&
+    //TZ=America/Los_Angeles&
+    //json.nl=map&
+    //wt=json&callback=?
+
     Manager.store.addByValue('q', '*:*');
     var params = {
       facet: true,
-      'facet.field': [ 'Nro_Origen', 'Nro_Destino', 'Tipo_Comunicacion' ],
+      'facet.field': [ 'Nro_Origen', 'Nro_Destino', 'Tipo_Comunicacion', 'Duracion', 'Celda_Origen' ],
       'facet.limit': 20,
       'facet.mincount': 1,
       'f.topics.facet.limit': 50,
       'f.Tipo_Comunicacion.facet.limit': -1,
       'facet.range': 'Fecha_Origen',
+      //'facet.range.start' : 'NOW/MONTH-1YEAR',
+      //'facet.range.end' : 'NOW',
       'facet.range.start': '2015-01-01T00:00:00.000Z/DAY',
-      'facet.range.end': '2016-12-31T00:00:00.000Z/DAY+1DAY',
+      'facet.range.end': '2017-12-31T00:00:00.000Z/DAY+1DAY',
       'facet.range.gap': '+1DAY',
       'json.nl': 'map'
     };

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Angular and Solr Searching</title>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.10/angular.js" type="text/javascript" charset="utf-8"></script>-->
+    <script src="app/bower_components/angular/angular.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="app/bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" media="all" />
+    <!--<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css" media="all" />-->
+  </head>
+  <body>
+    <div ng-app="firstApp" ng-controller="MainCtrl">
+      <div class="container">
+        <h1>Angular and Solr Searching</h1>
+        <solr docs="docs" num-found="numFound" solr-url="'https://repository.library.brown.edu/api/search/?callback=JSON_CALLBACK'">
+          <div class="row">
+            <div class="col-md-4">
+              <solr-facet-group>
+                <h2>Search:</h2>
+                <solr-search preload='true' query='{{params.q}}'></solr-search>
+                <solr-selected><h2>Selected:</h2></solr-selected>
+                <h2>Facet List:</h2>
+                <solr-facet display="Resource Type" field="mods_type_of_resource"></solr-facet>
+                <solr-facet display="Object Type"   field="object_type"></solr-facet>
+                <solr-facet display="Keyword"       field="mods_subject_ssim"></solr-facet>
+              </solr-facet-group>
+            </div>
+
+            <div class="col-md-8">
+              <h2>Results ({{numFound}})</h2>
+              <ul class="list-unstyled">
+                <li ng-repeat="doc in docs">
+                  <result-document record=doc ></result-document>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </solr>
+      </div>
+    </div>
+    <script src="app/js/solr.js" type="text/javascript" charset="utf-8"></script>
+    <script src="app/js/main.js" type="text/javascript" charset="utf-8"></script>
+  </body>
+</html>

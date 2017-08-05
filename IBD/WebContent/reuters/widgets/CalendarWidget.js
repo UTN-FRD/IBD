@@ -23,7 +23,7 @@ AjaxSolr.CalendarWidget = AjaxSolr.AbstractFacetWidget.extend({
         }
       }
     });
-    
+    /*
     $( "#slider-range" ).slider({
         range: true,
         min: new Date(startDate).getTime() / 1000,
@@ -46,8 +46,9 @@ AjaxSolr.CalendarWidget = AjaxSolr.AbstractFacetWidget.extend({
             }
         }
       });
+      
       $( "#amount" ).val( (new Date($( "#slider-range" ).slider( "values", 0 )*1000).toLocaleDateString()) + " - " + (new Date($( "#slider-range" ).slider( "values", 1 )*1000)).toLocaleDateString());
-
+     */
   }
 });
 
