@@ -7,19 +7,54 @@
 </ul>
 */
 AjaxSolr.TipoComunicacionWidget = AjaxSolr.AbstractFacetWidget.extend({
+
   afterRequest: function () {
+	var self = this;
+	
+	var facetField = 'Tipo_Comunicacion';
+
 	$('#tipo-comunicacion>li').removeClass('active');
-    if (this.manager.response.facet_counts.facet_fields['Tipo_Comunicacion'] === undefined) {
-      $('#tipo-comunicacion>li[0]').addClass('active');
+    if (this.manager.response.facet_counts.facet_fields[facetField] === undefined) {
+      $('#tipo-comunicacion>li').first().addClass('active');
       return;
     }
 
+    var fq = this.manager.store.values('fq');
+    for (var i = 0, l = fq.length; i < l; i++) {
+    	if(fq[i].indexOf(facetField)>=0){
+    		$('#tipo-comunicacion>li').first().click(self.removeFacet(fq[i]));
+    	}
+    }
     
-    $('#tipo-comunicacion>li[0]').click(this.removeFacet('Tipo_Comunicacion'))
+    $('#cantidad-Llamada').parent().click(function(){
+    	var fq = self.manager.store.values('fq');
+        for (var i = 0, l = fq.length; i < l; i++) {
+        	if(fq[i].indexOf(facetField)>=0){
+        		self.manager.store.removeByValue('fq', fq[i]);
+        	}
+        }
+        
+    	if (self.add('Llamada')) {
+    		self.doRequest();
+        }
+    });
+    $('#cantidad-Mensaje').parent().click(function(){
+    	var fq = self.manager.store.values('fq');
+        for (var i = 0, l = fq.length; i < l; i++) {
+        	if(fq[i].indexOf(facetField)>=0){
+        		self.manager.store.removeByValue('fq', fq[i]);
+        	}
+        }
+
+        if (self.add('Mensaje')) {
+    		self.doRequest();
+        }
+    });
+    
     
     var objectedItems = [];
-    for (var facet in this.manager.response.facet_counts.facet_fields['Tipo_Comunicacion']) {
-      var count = parseInt(this.manager.response.facet_counts.facet_fields['Tipo_Comunicacion'][facet]);
+    for (var facet in this.manager.response.facet_counts.facet_fields[facetField]) {
+      var count = parseInt(this.manager.response.facet_counts.facet_fields[facetField][facet]);
       $('#cantidad-'+facet).html(count);
       $('#cantidad-'+facet).parent().click(this.clickHandler(facet))
       objectedItems.push({ facet: facet, count: count });
@@ -28,23 +63,15 @@ AjaxSolr.TipoComunicacionWidget = AjaxSolr.AbstractFacetWidget.extend({
       return a.facet < b.facet ? -1 : 1;
     });
 
-    $(this.target).empty();
-
     var filtered = false;
 
-    	if(this.manager.store.get('q').val().indexOf('Tipo_Comunicacion')!== -1 ){
-    		$('#tipo-comunicacion>li[0]').addClass('active');
-    		filtered = true;
-    	}else{
-    		var fq = this.manager.store.values('fq');
-    		for (var i = 0, l = fq.length; i < l; i++) {
-    			$('#tipo-comunicacion>li[0]').addClass('active');
-    			if(fq[i].indexOf('Tipo_Comunicacion')!== -1){
-    				$('#cantidad-'+facet).addClass('active');
-    			      filtered = true;
-    			}
-    		}
-    	}
+	var fq = this.manager.store.values('fq');
+	for (var i = 0, l = fq.length; i < l; i++) {
+		if(fq[i].indexOf(facetField)!== -1){
+			$('#cantidad-'+facet).parent().parent().addClass('active');
+		    filtered = true;
+		}
+	}
     
     if(!filtered)
     	$('#tipo-comunicacion>li').first().addClass('active');
@@ -57,8 +84,7 @@ AjaxSolr.TipoComunicacionWidget = AjaxSolr.AbstractFacetWidget.extend({
 	      }
 	      return false;
 	    };
-	  }
-
+  }
 });
 
 })(jQuery);

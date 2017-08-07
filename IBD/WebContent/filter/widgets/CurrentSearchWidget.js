@@ -7,6 +7,8 @@ AjaxSolr.CurrentSearchWidget = AjaxSolr.AbstractWidget.extend({
     var self = this;
     var links = [];
 
+    $('#download-results').attr('href', this.manager.solrUrl+'select?'+this.manager.store.string()+'&fl=Fecha_Origen,Nro_Origen,Nro_Destino,Tipo_Comunicacion,Duracion,Celda_Origen&wt=csv');
+    
     var q = this.manager.store.get('q').val();
     if (q != '*:*') {
       links.push($('<a href="#"></a>').text('(x) ' + q).click(function () {

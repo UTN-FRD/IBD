@@ -95,7 +95,10 @@ font-size: 170%;
 a.tagcloud_size_10 {
 font-size: 180%;
 }
-
+.tagcloud{
+	background: #fafafa;
+    padding: 20px;
+}
 #tipo-comunicacion.nav-pills > li{
 	float:none;
 }

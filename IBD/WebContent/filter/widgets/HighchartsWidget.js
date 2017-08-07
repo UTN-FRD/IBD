@@ -51,10 +51,25 @@
 	        	if (self.add('[' + dateFrom.getFullYear()+'-'+(dateFrom.getMonth()+1)+'-'+dateFrom.getDate() + 'T00:00:00Z TO ' + dateTo.getFullYear()+'-'+(dateTo.getMonth()+1)+'-'+dateTo.getDate()  + 'T23:59:59Z]')) {
 	                self.manager.store.params['facet.range.start'].value = dateFrom.getFullYear()+'-'+(dateFrom.getMonth()+1)+'-'+dateFrom.getDate() + 'T00:00:00Z';
 	                self.manager.store.params['facet.range.end'].value = dateTo.getFullYear()+'-'+(dateTo.getMonth()+1)+'-'+dateTo.getDate() + 'T23:59:59Z';
+	    			$('#removeDateFilter').show();
 	        		self.doRequest();
 	            }
 
 
+			});
+
+			// the button action
+			$('#removeDateFilter').click(function () {
+				var fq = self.manager.store.values('fq');
+			    for (var i = 0, l = fq.length; i < l; i++) {
+			    	if(fq[i].indexOf(self.field)>=0){
+			    		if (self.manager.store.removeByValue('fq', fq[i])) {
+			    			$('#removeDateFilter').hide();
+			    	        self.doRequest();
+			    	        return;
+			    	    }
+			    	}
+			    }
 			});
 
 		}

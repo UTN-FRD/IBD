@@ -83,7 +83,7 @@ var Manager;
     var params = {
       facet: true,
       'facet.field': [ 'Nro_Origen', 'Nro_Destino', 'Tipo_Comunicacion', 'Duracion', 'Celda_Origen' ],
-      'facet.limit': 20,
+      'facet.limit': 40,
       'facet.mincount': 1,
       'f.topics.facet.limit': 50,
       'f.Tipo_Comunicacion.facet.limit': -1,
